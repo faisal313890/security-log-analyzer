@@ -1,0 +1,4 @@
+2026-10-25T08:00:00Z lab01 sshd[100]: Accepted publickey for alice from 192.0.2.10 port 51000 ssh2
+2026-10-25T08:02:00Z lab01 sshd[101]: Failed password for alice from 192.0.2.10 port 51001 ssh2
+2026-10-25T08:03:00Z lab01 sshd[102]: Accepted password for alice from 192.0.2.10 port 51002 ssh2
+2026-10-25T08:10:00Z lab01 sshd[103]: Accepted publickey for bob from 192.0.2.11 port 51003 ssh2

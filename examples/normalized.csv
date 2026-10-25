@@ -1,0 +1,7 @@
+timestamp,event,username,source_ip,host,service
+2026-10-25T13:00:00Z,4625,LAB\alice,192.0.2.55,win-lab,windows-security
+2026-10-25T13:00:10Z,4625,LAB\alice,192.0.2.55,win-lab,windows-security
+2026-10-25T13:00:20Z,4625,LAB\alice,192.0.2.55,win-lab,windows-security
+2026-10-25T13:00:30Z,4625,LAB\alice,192.0.2.55,win-lab,windows-security
+2026-10-25T13:00:40Z,4625,LAB\alice,192.0.2.55,win-lab,windows-security
+2026-10-25T13:00:50Z,4624,LAB\alice,192.0.2.55,win-lab,windows-security

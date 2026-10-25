@@ -1,0 +1,410 @@
+{
+  "tool": "Security Log Analyzer",
+  "version": "0.1.0",
+  "report_id": "c63c6186-0b6f-46a9-a38f-4f5e4e236d5f",
+  "analyzed_at_utc": "2026-10-25T11:13:21.163208+00:00",
+  "source_file": "suspicious.log",
+  "input_sha256": "522c2ea1b0b9e85acd5b46c7d59d99770f7e2b8d88d85440196d4125d5c13e0d",
+  "format": "openssh",
+  "parse_status": "parsed",
+  "settings": {
+    "year": 2026,
+    "naive_timestamp_offset": "+00:00",
+    "failure_threshold": 5,
+    "failure_window_minutes": 5,
+    "distinct_user_threshold": 5,
+    "distinct_source_threshold": 3,
+    "diversity_window_minutes": 10,
+    "success_prior_failure_threshold": 3,
+    "success_window_minutes": 10
+  },
+  "summary": {
+    "input_records": 14,
+    "parsed_events": 14,
+    "failures": 13,
+    "successes": 1,
+    "ignored_records": 0,
+    "invalid_records": 0,
+    "identical_normalized_records": 0,
+    "alerts": 5,
+    "returned_alerts": 5,
+    "omitted_alerts": 0,
+    "year_assumed_records": 0,
+    "offset_assumed_records": 0
+  },
+  "time_range_utc": {
+    "first": "2026-10-25T10:00:00+00:00",
+    "last": "2026-10-25T10:22:00+00:00"
+  },
+  "alerts": [
+    {
+      "rule": "SLA-001",
+      "title": "Repeated failures from one source",
+      "priority": "review",
+      "scope": {
+        "host": "lab01",
+        "service": "sshd",
+        "source_ip": "198.51.100.10"
+      },
+      "window_minutes": 5,
+      "threshold": 5,
+      "observed_metric": 5,
+      "evidence": {
+        "first_event_utc": "2026-10-25T10:00:00+00:00",
+        "last_event_utc": "2026-10-25T10:00:40+00:00",
+        "record_count": 5,
+        "source_lines": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "line_references_truncated": false
+      },
+      "meaning": "The failure-record threshold was reached. This may indicate repeated guessing, user mistakes or automation; unique connection attempts were not verified.",
+      "suggested_action": "Check expected user activity, shared gateways, service automation, clock accuracy and duplicate/forwarded records; correlate with additional logs before acting.",
+      "id": "ALERT-0001"
+    },
+    {
+      "rule": "SLA-004",
+      "title": "Success after repeated failures",
+      "priority": "review",
+      "scope": {
+        "host": "lab01",
+        "service": "sshd",
+        "source_ip": "198.51.100.10",
+        "username": "admin"
+      },
+      "window_minutes": 10,
+      "threshold": 3,
+      "observed_metric": 5,
+      "evidence": {
+        "first_event_utc": "2026-10-25T10:00:00+00:00",
+        "last_event_utc": "2026-10-25T10:01:00+00:00",
+        "prior_failure_count": 5,
+        "failure_line_examples": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "line_references_truncated": false,
+        "success_line": 6
+      },
+      "meaning": "A success followed at least three strictly earlier failures for the same host/service/source/user key. This does not establish that the successful logon was unauthorized.",
+      "suggested_action": "Check expected user activity, shared gateways, service automation, clock accuracy and duplicate/forwarded records; correlate with additional logs before acting.",
+      "id": "ALERT-0002"
+    },
+    {
+      "rule": "SLA-001",
+      "title": "Repeated failures from one source",
+      "priority": "review",
+      "scope": {
+        "host": "lab01",
+        "service": "sshd",
+        "source_ip": "203.0.113.20"
+      },
+      "window_minutes": 5,
+      "threshold": 5,
+      "observed_metric": 5,
+      "evidence": {
+        "first_event_utc": "2026-10-25T10:10:00+00:00",
+        "last_event_utc": "2026-10-25T10:10:40+00:00",
+        "record_count": 5,
+        "source_lines": [
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "line_references_truncated": false
+      },
+      "meaning": "The failure-record threshold was reached. This may indicate repeated guessing, user mistakes or automation; unique connection attempts were not verified.",
+      "suggested_action": "Check expected user activity, shared gateways, service automation, clock accuracy and duplicate/forwarded records; correlate with additional logs before acting.",
+      "id": "ALERT-0003"
+    },
+    {
+      "rule": "SLA-002",
+      "title": "One source failing across multiple usernames",
+      "priority": "review",
+      "scope": {
+        "host": "lab01",
+        "service": "sshd",
+        "source_ip": "203.0.113.20"
+      },
+      "window_minutes": 10,
+      "threshold": 5,
+      "observed_metric": 5,
+      "evidence": {
+        "first_event_utc": "2026-10-25T10:10:00+00:00",
+        "last_event_utc": "2026-10-25T10:10:40+00:00",
+        "record_count": 5,
+        "source_lines": [
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "line_references_truncated": false
+      },
+      "meaning": "A source reached the distinct-username threshold. This can resemble broad guessing or spraying; passwords and attacker intent are not visible.",
+      "suggested_action": "Check expected user activity, shared gateways, service automation, clock accuracy and duplicate/forwarded records; correlate with additional logs before acting.",
+      "username_examples": [
+        "alpha",
+        "bravo",
+        "charlie",
+        "delta",
+        "echo"
+      ],
+      "id": "ALERT-0004"
+    },
+    {
+      "rule": "SLA-003",
+      "title": "One username failing from multiple sources",
+      "priority": "review",
+      "scope": {
+        "host": "lab01",
+        "service": "sshd",
+        "username": "shared"
+      },
+      "window_minutes": 10,
+      "threshold": 3,
+      "observed_metric": 3,
+      "evidence": {
+        "first_event_utc": "2026-10-25T10:20:00+00:00",
+        "last_event_utc": "2026-10-25T10:22:00+00:00",
+        "record_count": 3,
+        "source_lines": [
+          12,
+          13,
+          14
+        ],
+        "line_references_truncated": false
+      },
+      "meaning": "Distinct logged source IPs reached the threshold. Distributed guessing, legitimate devices and network changes can share this pattern.",
+      "suggested_action": "Check expected user activity, shared gateways, service automation, clock accuracy and duplicate/forwarded records; correlate with additional logs before acting.",
+      "source_ip_examples": [
+        "192.0.2.30",
+        "192.0.2.31",
+        "192.0.2.32"
+      ],
+      "id": "ALERT-0005"
+    }
+  ],
+  "rule_counts": {
+    "SLA-001": 2,
+    "SLA-004": 1,
+    "SLA-002": 1,
+    "SLA-003": 1
+  },
+  "top_failure_sources": [
+    {
+      "source_ip": "198.51.100.10",
+      "failure_records": 5
+    },
+    {
+      "source_ip": "203.0.113.20",
+      "failure_records": 5
+    },
+    {
+      "source_ip": "192.0.2.30",
+      "failure_records": 1
+    },
+    {
+      "source_ip": "192.0.2.31",
+      "failure_records": 1
+    },
+    {
+      "source_ip": "192.0.2.32",
+      "failure_records": 1
+    }
+  ],
+  "events_preview": [
+    {
+      "timestamp_utc": "2026-10-25T10:00:00+00:00",
+      "event": "failure",
+      "username": "admin",
+      "source_ip": "198.51.100.10",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 1,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:00:10+00:00",
+      "event": "failure",
+      "username": "admin",
+      "source_ip": "198.51.100.10",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 2,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:00:20+00:00",
+      "event": "failure",
+      "username": "admin",
+      "source_ip": "198.51.100.10",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 3,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:00:30+00:00",
+      "event": "failure",
+      "username": "admin",
+      "source_ip": "198.51.100.10",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 4,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:00:40+00:00",
+      "event": "failure",
+      "username": "admin",
+      "source_ip": "198.51.100.10",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 5,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:01:00+00:00",
+      "event": "success",
+      "username": "admin",
+      "source_ip": "198.51.100.10",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 6,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:10:00+00:00",
+      "event": "failure",
+      "username": "alpha",
+      "source_ip": "203.0.113.20",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 7,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:10:10+00:00",
+      "event": "failure",
+      "username": "bravo",
+      "source_ip": "203.0.113.20",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 8,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:10:20+00:00",
+      "event": "failure",
+      "username": "charlie",
+      "source_ip": "203.0.113.20",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 9,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:10:30+00:00",
+      "event": "failure",
+      "username": "delta",
+      "source_ip": "203.0.113.20",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 10,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:10:40+00:00",
+      "event": "failure",
+      "username": "echo",
+      "source_ip": "203.0.113.20",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 11,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:20:00+00:00",
+      "event": "failure",
+      "username": "shared",
+      "source_ip": "192.0.2.30",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 12,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:21:00+00:00",
+      "event": "failure",
+      "username": "shared",
+      "source_ip": "192.0.2.31",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 13,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    },
+    {
+      "timestamp_utc": "2026-10-25T10:22:00+00:00",
+      "event": "failure",
+      "username": "shared",
+      "source_ip": "192.0.2.32",
+      "host": "lab01",
+      "service": "sshd",
+      "source_line": 14,
+      "invalid_user": false,
+      "year_assumed": false,
+      "offset_assumed": false
+    }
+  ],
+  "preview_truncated": false,
+  "diagnostics": [],
+  "diagnostics_truncated": false,
+  "warnings": [],
+  "limitations": [
+    "Alerts are authentication patterns requiring investigation, not proof of an attack or account compromise. User mistakes, shared gateways, automation and log duplication can produce similar patterns.",
+    "Only supported OpenSSH Failed/Accepted records or the documented normalized CSV schema are analyzed. Native Windows EVTX/XML, arbitrary vendor logs, raw Windows Event Viewer CSV and application-specific formats are not parsed.",
+    "Each rule returns the strongest qualifying window per grouping key in this file, not every episode. Windows include both endpoints; success-after-failures requires failures at strictly earlier timestamps.",
+    "Records are sorted by parsed UTC time. Yearless/naive timestamps use your explicit year/fixed UTC offset settings. DST, clock skew, year rollover and missing log segments are not inferred.",
+    "Records are not automatically deduplicated. Repeated normalized records are counted and reported; rotation/forwarding duplicates can inflate alerts. A log record is not necessarily a unique connection or human attempt.",
+    "A source IP is a logged identifier, not verified attacker identity or location. No DNS, geolocation, reputation lookup, host access or blocking action is performed.",
+    "Raw log messages are not exported. Normalized records, usernames, hostnames, service names and IPs remain sensitive; review reports before sharing.",
+    "The event preview contains at most 200 chronological records. At most 200 alert details are returned; omitted-alert counts are explicit. Grouped counts may describe overlapping records across rules."
+  ]
+}

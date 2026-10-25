@@ -1,0 +1,4 @@
+2026-10-25T12:00:00Z lab01 sshd[1]: Failed password for alice from 192.0.2.1 port 1000 ssh2
+2026-10-25T12:00:01Z lab01 sshd[1]: Failed password for alice from NOT_AN_IP port 1000 ssh2
+2026-10-25T12:00:02Z lab01 sshd[1]: Invalid user alice from 192.0.2.1 port 1000
+unrelated service message
